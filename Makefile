@@ -1,3 +1,27 @@
+# var
+MODULE = $(notdir $(CURDIR))
+OS     = $(shell uname -s)
+
+# dirs
+CWD = $(CURDIR)
+
+# tool
+CURL = curl -L -o
+PY   = $(CWD)/bin/python3
+PIP  = $(CWD)/bin/pip3
+
+# src
+P += $(wildcard *.py)
+
+# all
+.PHONY: all
+all:
+
+# format
+.PHONY: format
+format: tmp/format_py
+tmp/format_py: $(P)
+	echo format: $?
 
 # Install on Ubuntu(-like) systems
 
@@ -14,7 +38,7 @@ ASSEST_PATH = assets/linux
 INSTALL_PATH = /usr/share/flatcam-beta
 APPS_PATH = /usr/share/applications
 
-MIN_PY3_MINOR_VERSION := 6
+MIN_PY3_MINOR_VERSION := 06
 PY3_MINOR_VERSION := $(shell python3 --version | cut -d'.' -f2)
 
 ifneq ($(MIN_PY3_MINOR_VERSION), $(firstword $(sort $(PY3_MINOR_VERSION) $(MIN_PY3_MINOR_VERSION))))
@@ -22,7 +46,21 @@ ifneq ($(MIN_PY3_MINOR_VERSION), $(firstword $(sort $(PY3_MINOR_VERSION) $(MIN_P
     $(error You must have at least 3.$(MIN_PY3_MINOR_VERSION) installed)
 endif
 
-install:
+# install
+
+ifeq ($(OS), Linux)
+include /etc/os-release
+endif
+
+.PHONY: install update
+install: install_$(OS)
+update: update_$(OS)
+
+.PHONY: install_$(OS) update_$(OS)
+install_$(OS):
+update_$(OS):
+
+install.desktop:
 ifeq ($(USER_ID), 0)
 	@ echo "Installing it system-wide"
 	cp -rf $(LOCAL_PATH) $(INSTALL_PATH)

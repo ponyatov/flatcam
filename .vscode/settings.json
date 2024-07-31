@@ -3,11 +3,11 @@
         { "command": "multiCommand.f11",
             "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make format \u000D"}}]},
+                    "args": {"text": "\u000D clear ; LANG=C make install \u000D"}}]},
         { "command": "multiCommand.f12",
             "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make all \u000D"}}]},
+                    "args": {"text": "\u000D clear ; LANG=C make update \u000D"}}]},
     ],
 
     // files
