@@ -7,8 +7,12 @@ CWD = $(CURDIR)
 
 # tool
 CURL = curl -L -o
-PY   = $(CWD)/bin/python3
-PIP  = $(CWD)/bin/pip3
+# venv
+# PY   = $(CWD)/bin/python3
+# PIP  = $(CWD)/bin/pip3
+# system-wide
+PY   = /usr/bin/python3
+PIP  = /usr/bin/pip3
 
 # src
 P += $(wildcard *.py)
@@ -55,12 +59,20 @@ include /etc/os-release
 endif
 
 .PHONY: install update
-install: install_$(OS)
-update: update_$(OS)
+
+# first install
+install: $(PIP) install_$(OS)
+
+# update packages & libs
+update: $(PIP) update_$(OS)
 
 .PHONY: install_$(OS) update_$(OS)
 install_$(OS):
 update_$(OS):
+
+# system-wide Python
+/usr/bin/python3 /usr/bin/pip3:
+	sudo apt install -uy python3 python3-pip
 
 install.desktop:
 ifeq ($(USER_ID), 0)
