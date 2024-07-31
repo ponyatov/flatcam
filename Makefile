@@ -38,12 +38,14 @@ ASSEST_PATH = assets/linux
 INSTALL_PATH = /usr/share/flatcam-beta
 APPS_PATH = /usr/share/applications
 
-MIN_PY3_MINOR_VERSION := 06
+MIN_PY3_MINOR_VERSION := 6
 PY3_MINOR_VERSION := $(shell python3 --version | cut -d'.' -f2)
 
-ifneq ($(MIN_PY3_MINOR_VERSION), $(firstword $(sort $(PY3_MINOR_VERSION) $(MIN_PY3_MINOR_VERSION))))
-    $(info Current python version is 3.$(PY3_MINOR_VERSION))
-    $(error You must have at least 3.$(MIN_PY3_MINOR_VERSION) installed)
+compare = $(shell if [ $(1) -gt $(2) ] ; then echo gt ; else echo lt ; fi)
+
+ifneq ($(call compare,$(PY3_MINOR_VERSION),$(MIN_PY3_MINOR_VERSION)),gt)
+    $(info  Current python version is 3.$(PY3_MINOR_VERSION))
+    $(error    You must have at least 3.$(MIN_PY3_MINOR_VERSION) installed)
 endif
 
 # install
@@ -76,7 +78,7 @@ else
 	@ sed -i "s|Icon=.*|Icon=$(LOCAL_PATH)/$(ASSEST_PATH)/icon.png|g" $(LOCAL_APPS_PATH)/flatcam-beta.desktop
 endif
 
-remove:
+remove.desktop:
 ifeq ($(USER_ID), 0)
 	@ echo "Uninstalling it system-wide"
 	rm -rf $(INSTALL_PATH)
