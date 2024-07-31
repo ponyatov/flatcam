@@ -18,5 +18,6 @@
         // Python
         "ms-python.python",
         "ms-python.debugpy",
+        "ms-python.autopep8",
     ]
 }
