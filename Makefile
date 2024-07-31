@@ -19,7 +19,8 @@ P += $(wildcard *.py)
 
 # all
 .PHONY: all
-all:
+all: $(PY) $(MODULE).py
+	$^
 
 # format
 .PHONY: format
@@ -62,6 +63,7 @@ endif
 
 # first install
 install: $(PIP) install_$(OS)
+	$(MAKE) update
 
 # update packages & libs
 update: $(PIP) update_$(OS)
@@ -69,6 +71,8 @@ update: $(PIP) update_$(OS)
 .PHONY: install_$(OS) update_$(OS)
 install_$(OS):
 update_$(OS):
+	sudo apt update
+	sudo apt install -uy `cat apt.dev apt.${ID}`
 
 # system-wide Python
 /usr/bin/python3 /usr/bin/pip3:
