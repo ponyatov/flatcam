@@ -8,11 +8,11 @@ CWD = $(CURDIR)
 # tool
 CURL = curl -L -o
 # venv
-# PY   = $(CWD)/bin/python3
-# PIP  = $(CWD)/bin/pip3
+PY   = $(CWD)/bin/python3
+PIP  = $(CWD)/bin/pip3
 # system-wide
-PY   = /usr/bin/python3
-PIP  = /usr/bin/pip3
+# PY   = /usr/bin/python3
+# PIP  = /usr/bin/pip3
 
 # src
 P += $(wildcard *.py)
@@ -67,14 +67,20 @@ install: $(PIP) install_$(OS)
 
 # update packages & libs
 update: $(PIP) update_$(OS)
+	# venv
+	$(PIP) install -U -r requirements.${ID}
 
 .PHONY: install_$(OS) update_$(OS)
 install_$(OS):
 update_$(OS):
-	sudo apt update
+# sudo apt update
 	sudo apt install -uy `cat apt.dev apt.${ID}`
 
-# system-wide Python
+# venv
+$(CWD)/bin/python3 $(CWD)/bin/pip3: /usr/bin/python3
+	$< -m venv .
+	$(CWD)/bin/pip3 install -U pip
+# system-wide
 /usr/bin/python3 /usr/bin/pip3:
 	sudo apt install -uy python3 python3-pip
 

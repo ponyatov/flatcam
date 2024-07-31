@@ -10,3 +10,8 @@ build/
 .AppleDouble
 .LSOverride
 .vscode
+
+# Python venv
+bin/
+lib/python*/
+lib64
