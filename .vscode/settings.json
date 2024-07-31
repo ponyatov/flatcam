@@ -12,6 +12,8 @@
 
     // files
     "files.exclude": {
+        "bin":   true, "lib64":   true, "lib": true,
+        "share": true, "include": true, "__pycache__": true,
     },
     "files.watcherExclude": {
     },
